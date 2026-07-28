@@ -58,6 +58,6 @@ export interface LiveBus {
   etaMinutes: number;
   lastDeparture: string;
   status: 'EN ROUTE' | 'À QUAI' | 'RETARD';
-  x: number;
-  y: number;
+  lat: number;
+  lng: number;
 }

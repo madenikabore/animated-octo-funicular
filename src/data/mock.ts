@@ -108,6 +108,9 @@ export const NEXT_BUSES = [
   { lineId: 'l-13', etaMinutes: 18 },
 ];
 
+// Centre approximatif de Ouagadougou — utilisé pour cadrer la carte satellite
+export const OUAGA_CENTER: [number, number] = [12.3714, -1.5197];
+
 export const LIVE_BUSES: LiveBus[] = [
   {
     id: 'SOTR-042',
@@ -118,8 +121,8 @@ export const LIVE_BUSES: LiveBus[] = [
     etaMinutes: 3,
     lastDeparture: '09:45 — Place Naaba Koom',
     status: 'EN ROUTE',
-    x: 42,
-    y: 46,
+    lat: 12.3765,
+    lng: -1.509,
   },
   {
     id: 'SOTR-071',
@@ -130,8 +133,8 @@ export const LIVE_BUSES: LiveBus[] = [
     etaMinutes: 11,
     lastDeparture: '09:38 — Sonabhy',
     status: 'EN ROUTE',
-    x: 68,
-    y: 58,
+    lat: 12.352,
+    lng: -1.545,
   },
   {
     id: 'SOTR-128',
@@ -142,8 +145,8 @@ export const LIVE_BUSES: LiveBus[] = [
     etaMinutes: 18,
     lastDeparture: '09:20 — Trame ZACA',
     status: 'RETARD',
-    x: 58,
-    y: 30,
+    lat: 12.368,
+    lng: -1.485,
   },
 ];
 
