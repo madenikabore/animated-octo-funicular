@@ -4,6 +4,11 @@ import { TopBar } from '../components/PhoneFrame';
 import { useApp } from '../context/AppContext';
 import { PAYMENT_METHODS, PLANS } from '../data/mock';
 import type { PaymentMethodId } from '../types';
+import orangeMoneyLogo from '../assets/payments/orange-money.png';
+import moovMoneyLogo from '../assets/payments/moov-money.png';
+import corisMoneyLogo from '../assets/payments/coris-money.png';
+import waveLogo from '../assets/payments/wave.png';
+import telecelMoneyLogo from '../assets/payments/telecel-money.png';
 
 const fmt = (n: number) => new Intl.NumberFormat('fr-FR').format(n);
 
@@ -65,7 +70,7 @@ export function Payment() {
                   >
                     {active && <span className="w-2 h-2 rounded-full bg-sotraco-blue-600" />}
                   </span>
-                  <MethodDot id={m.id} />
+                  <MethodLogo id={m.id} />
                   <span className="flex-1 text-left text-[14px] font-medium text-neutral-800">{m.label}</span>
                   {m.recommended && (
                     <span className="text-[10px] font-bold bg-sotraco-blue-600 text-white px-2 py-0.5 rounded-full">
@@ -110,13 +115,17 @@ export function Payment() {
   );
 }
 
-function MethodDot({ id }: { id: PaymentMethodId }) {
-  const colors: Record<PaymentMethodId, string> = {
-    orange: '#f5a623',
-    moov: '#1d6fd8',
-    coris: '#c62828',
-    wave: '#1dc8e0',
-    telecel: '#a91d3a',
+function MethodLogo({ id }: { id: PaymentMethodId }) {
+  const logos: Record<PaymentMethodId, string> = {
+    orange: orangeMoneyLogo,
+    moov: moovMoneyLogo,
+    coris: corisMoneyLogo,
+    wave: waveLogo,
+    telecel: telecelMoneyLogo,
   };
-  return <span className="w-6 h-6 rounded-full shrink-0" style={{ backgroundColor: colors[id] }} />;
+  return (
+    <span className="w-9 h-9 rounded-lg shrink-0 overflow-hidden bg-white border border-neutral-100 flex items-center justify-center">
+      <img src={logos[id]} alt="" className="w-full h-full object-cover" />
+    </span>
+  );
 }
