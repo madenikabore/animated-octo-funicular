@@ -1,16 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
-function BusLogo() {
-  return (
-    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <rect x="3" y="5" width="18" height="12" rx="2.5" />
-      <path d="M3 11h18" />
-      <circle cx="7.5" cy="19" r="1.6" fill="currentColor" stroke="none" />
-      <circle cx="16.5" cy="19" r="1.6" fill="currentColor" stroke="none" />
-      <path d="M6 8h3M6 14h3" />
-    </svg>
-  );
-}
+import mascot from '../assets/sotraco-mascot.png';
 
 export function Splash() {
   const navigate = useNavigate();
@@ -21,8 +10,8 @@ export function Splash() {
       <div className="absolute bottom-24 -left-16 w-48 h-48 rounded-full bg-sotraco-maroon-700/60" />
 
       <div className="relative flex-1 flex flex-col items-center justify-center px-8 text-center">
-        <div className="w-24 h-24 rounded-full bg-sotraco-green-700/60 flex items-center justify-center mb-6 ring-4 ring-sotraco-green-600/40">
-          <BusLogo />
+        <div className="w-40 h-40 rounded-full bg-white flex items-center justify-center mb-6 ring-4 ring-sotraco-green-600/40 overflow-hidden shadow-xl">
+          <img src={mascot} alt="Bus SOTRACO" className="w-[92%] h-[92%] object-contain" />
         </div>
         <h1 className="text-3xl font-bold tracking-tight">SOTRACO</h1>
         <p className="text-sotraco-green-100/80 text-sm mt-3">Transport Connecté — Burkina Faso</p>

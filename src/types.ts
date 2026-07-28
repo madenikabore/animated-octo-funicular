@@ -34,12 +34,19 @@ export interface PaymentMethod {
   recommended?: boolean;
 }
 
+export interface ScheduleWindow {
+  start: string;
+  end: string;
+}
+
 export interface BusLine {
   id: string;
   number: string;
-  from: string;
-  to: string;
+  kind: 'urbaine' | 'suburbaine';
+  areas: string;
   color: string;
+  weekday: ScheduleWindow;
+  sundayHoliday: ScheduleWindow;
 }
 
 export interface LiveBus {

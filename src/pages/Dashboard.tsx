@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import { useApp } from '../context/AppContext';
-import { BUS_LINES, NEXT_BUSES } from '../data/mock';
+import { BUS_LINES, LIVE_BUSES, NEXT_BUSES } from '../data/mock';
 
 const QUICK_ACTIONS = [
   { key: 'suivi', label: 'Suivi\nBus', to: '/map', bg: 'bg-sotraco-green-700', icon: 'bus' },
   { key: 'payer', label: 'Payer', to: '/subscriptions', bg: 'bg-sotraco-blue-600', icon: 'pay' },
   { key: 'pass', label: 'Mon\nPass', to: '/pass', bg: 'bg-sotraco-purple-600', icon: 'pass' },
-  { key: 'lignes', label: 'Lignes', to: '/map', bg: 'bg-sotraco-orange-500', icon: 'lines' },
+  { key: 'lignes', label: 'Lignes', to: '/lines', bg: 'bg-sotraco-orange-500', icon: 'lines' },
 ] as const;
 
 function ActionIcon({ icon }: { icon: string }) {
@@ -120,10 +120,10 @@ export function Dashboard() {
                     className="text-[11px] font-bold text-white rounded-md px-2 py-1 shrink-0"
                     style={{ backgroundColor: line.color }}
                   >
-                    {line.number}
+                    {line.kind === 'urbaine' ? `L${line.number}` : line.number}
                   </span>
                   <span className="flex-1 text-[13px] text-neutral-700">
-                    {line.from} → {line.to}
+                    {LIVE_BUSES.find((b) => b.lineId === line.id)?.nextStop ?? line.areas}
                   </span>
                   <span className="text-[13px] font-semibold text-sotraco-green-700">{nb.etaMinutes} min</span>
                 </button>

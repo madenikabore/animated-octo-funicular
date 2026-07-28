@@ -2,17 +2,22 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import { BUS_LINES, LIVE_BUSES } from '../data/mock';
+import type { BusLine } from '../types';
+
+function lineBadge(line: BusLine) {
+  return line.kind === 'urbaine' ? `L${line.number}` : line.number;
+}
+
+const TRACKED_LINES = LIVE_BUSES.map((b) => BUS_LINES.find((l) => l.id === b.lineId)!);
 
 export function MapTracking() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [selectedLineId, setSelectedLineId] = useState<string>('l3');
+  const [selectedLineId, setSelectedLineId] = useState<string>(TRACKED_LINES[0].id);
 
   const filteredLines = useMemo(
     () =>
-      BUS_LINES.filter((l) =>
-        `${l.number} ${l.from} ${l.to}`.toLowerCase().includes(query.toLowerCase()),
-      ),
+      TRACKED_LINES.filter((l) => `${l.number} ${l.areas}`.toLowerCase().includes(query.toLowerCase())),
     [query],
   );
 
@@ -44,10 +49,16 @@ export function MapTracking() {
               }`}
               style={{ backgroundColor: line.color }}
             >
-              {line.number.replace('Ligne ', 'L')}
+              {lineBadge(line)}
             </button>
           ))}
         </div>
+        <button
+          onClick={() => navigate('/lines')}
+          className="mt-2 text-[12px] font-semibold text-sotraco-green-700"
+        >
+          Voir toutes les lignes & horaires →
+        </button>
       </div>
 
       <div className="relative flex-1 min-h-[220px] bg-[#dfe8e0] overflow-hidden">
@@ -82,7 +93,7 @@ export function MapTracking() {
                 className="text-[10px] font-bold text-white rounded px-1 -mt-0.5"
                 style={{ backgroundColor: line.color }}
               >
-                {line.number.replace('Ligne ', 'L')}
+                {lineBadge(line)}
               </span>
             </button>
           );
@@ -93,7 +104,8 @@ export function MapTracking() {
         <div className="shrink-0 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-4 pt-4 pb-3 flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <p className="text-[14px] font-semibold text-neutral-800">
-              {selectedLine.number} — {selectedLine.from} → {selectedLine.to}
+              {selectedLine.kind === 'urbaine' ? `Ligne ${selectedLine.number}` : selectedLine.number} —{' '}
+              {selectedLine.areas}
             </p>
             <span
               className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${

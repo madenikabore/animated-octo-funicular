@@ -33,7 +33,10 @@ export function BusIdentify() {
           <p className="text-sm font-semibold text-neutral-700 mb-2.5">Informations du Bus</p>
           <dl className="flex flex-col gap-2 text-[13px]">
             <Row label="Numéro Bus" value={bus.id} />
-            <Row label="Ligne" value={`${line.number} — ${line.from} → ${line.to}`} />
+            <Row
+              label="Ligne"
+              value={`${line.kind === 'urbaine' ? `Ligne ${line.number}` : line.number} — ${line.areas}`}
+            />
             <Row label="Conducteur" value={bus.driver} />
             <Row label="Dernier départ" value={bus.lastDeparture} />
             <Row label="Places dispo" value={`${bus.seatsAvailable} places disponibles`} />
