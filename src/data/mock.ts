@@ -12,7 +12,8 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
   { id: 'orange', label: 'Orange Money' },
   { id: 'moov', label: 'Moov Money', recommended: true },
   { id: 'coris', label: 'Coris Money' },
-  { id: 'card', label: 'Carte Bancaire' },
+  { id: 'wave', label: 'Wave' },
+  { id: 'telecel', label: 'Telecel Money' },
 ];
 
 // Numéros de lignes et horaires — Programme Vacances SOTRACO, 1er août au 30 sept. 2026

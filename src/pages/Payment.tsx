@@ -78,18 +78,16 @@ export function Payment() {
           </div>
         </div>
 
-        {method !== 'card' && (
-          <label className="text-sm">
-            <span className="block font-medium text-neutral-700 mb-1">
-              Numéro de téléphone {method === 'moov' ? 'Moov' : method === 'orange' ? 'Orange' : 'Coris'}
-            </span>
-            <input
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-sotraco-blue-500"
-            />
-          </label>
-        )}
+        <label className="text-sm">
+          <span className="block font-medium text-neutral-700 mb-1">
+            Numéro de téléphone {PAYMENT_METHODS.find((m) => m.id === method)?.label}
+          </span>
+          <input
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-sotraco-blue-500"
+          />
+        </label>
       </div>
 
       <div className="shrink-0 px-5 pb-4">
@@ -117,7 +115,8 @@ function MethodDot({ id }: { id: PaymentMethodId }) {
     orange: '#f5a623',
     moov: '#1d6fd8',
     coris: '#c62828',
-    card: '#3f3f46',
+    wave: '#1dc8e0',
+    telecel: '#a91d3a',
   };
   return <span className="w-6 h-6 rounded-full shrink-0" style={{ backgroundColor: colors[id] }} />;
 }

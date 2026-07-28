@@ -26,7 +26,7 @@ export interface ActiveSubscription {
   passCode: string;
 }
 
-export type PaymentMethodId = 'orange' | 'moov' | 'coris' | 'card';
+export type PaymentMethodId = 'orange' | 'moov' | 'coris' | 'wave' | 'telecel';
 
 export interface PaymentMethod {
   id: PaymentMethodId;
