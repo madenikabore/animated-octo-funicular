@@ -10,6 +10,7 @@ import { Subscriptions } from './pages/Subscriptions';
 import { Payment } from './pages/Payment';
 import { Pass } from './pages/Pass';
 import { MapTracking } from './pages/MapTracking';
+import { LinesSchedule } from './pages/LinesSchedule';
 import { BusIdentify } from './pages/BusIdentify';
 import { Profile } from './pages/Profile';
 
@@ -62,6 +63,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <MapTracking />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/lines"
+        element={
+          <ProtectedRoute>
+            <LinesSchedule />
           </ProtectedRoute>
         }
       />

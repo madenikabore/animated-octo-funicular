@@ -1,18 +1,30 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
+import { SatelliteMap } from '../components/SatelliteMap';
 import { BUS_LINES, LIVE_BUSES } from '../data/mock';
+import type { BusLine } from '../types';
+
+function lineBadge(line: BusLine) {
+  return line.kind === 'urbaine' ? `L${line.number}` : line.number;
+}
+
+const TRACKED_LINES = LIVE_BUSES.map((b) => BUS_LINES.find((l) => l.id === b.lineId)!);
 
 export function MapTracking() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [selectedLineId, setSelectedLineId] = useState<string>('l3');
+  const [selectedLineId, setSelectedLineId] = useState<string>(TRACKED_LINES[0].id);
+  const [focusRequestId, setFocusRequestId] = useState(0);
+
+  const selectLine = (lineId: string) => {
+    setSelectedLineId(lineId);
+    setFocusRequestId((n) => n + 1);
+  };
 
   const filteredLines = useMemo(
     () =>
-      BUS_LINES.filter((l) =>
-        `${l.number} ${l.from} ${l.to}`.toLowerCase().includes(query.toLowerCase()),
-      ),
+      TRACKED_LINES.filter((l) => `${l.number} ${l.areas}`.toLowerCase().includes(query.toLowerCase())),
     [query],
   );
 
@@ -38,62 +50,40 @@ export function MapTracking() {
           {filteredLines.map((line) => (
             <button
               key={line.id}
-              onClick={() => setSelectedLineId(line.id)}
+              onClick={() => selectLine(line.id)}
               className={`shrink-0 text-[12px] font-bold px-3 py-1.5 rounded-full text-white transition-transform ${
                 selectedLineId === line.id ? 'scale-105 ring-2 ring-offset-1' : 'opacity-80'
               }`}
               style={{ backgroundColor: line.color }}
             >
-              {line.number.replace('Ligne ', 'L')}
+              {lineBadge(line)}
             </button>
           ))}
         </div>
+        <button
+          onClick={() => navigate('/lines')}
+          className="mt-2 text-[12px] font-semibold text-sotraco-green-700"
+        >
+          Voir toutes les lignes & horaires →
+        </button>
       </div>
 
-      <div className="relative flex-1 min-h-[220px] bg-[#dfe8e0] overflow-hidden">
-        <MapGrid />
-        {LIVE_BUSES.map((b) => {
-          const line = BUS_LINES.find((l) => l.id === b.lineId)!;
-          const isSelected = b.lineId === selectedLineId;
-          return (
-            <button
-              key={b.id}
-              onClick={() => setSelectedLineId(b.lineId)}
-              className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-              style={{ left: `${b.x}%`, top: `${b.y}%` }}
-            >
-              <span
-                className="relative flex items-center justify-center w-8 h-8 rounded-full text-white shadow-lg bus-marker"
-                style={
-                  {
-                    backgroundColor: line.color,
-                    '--drift-x': `${(b.x % 3) - 1}px`,
-                    '--drift-y': `${(b.y % 3) - 1}px`,
-                    outline: isSelected ? '3px solid white' : 'none',
-                    outlineOffset: '1px',
-                  } as React.CSSProperties
-                }
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                  <rect x="3" y="6" width="18" height="11" rx="2" />
-                </svg>
-              </span>
-              <span
-                className="text-[10px] font-bold text-white rounded px-1 -mt-0.5"
-                style={{ backgroundColor: line.color }}
-              >
-                {line.number.replace('Ligne ', 'L')}
-              </span>
-            </button>
-          );
-        })}
+      <div className="relative flex-1 min-h-[220px] overflow-hidden">
+        <SatelliteMap
+          buses={LIVE_BUSES}
+          lines={BUS_LINES}
+          selectedLineId={selectedLineId}
+          onSelectBus={selectLine}
+          focusRequestId={focusRequestId}
+        />
       </div>
 
       {bus && (
         <div className="shrink-0 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-4 pt-4 pb-3 flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <p className="text-[14px] font-semibold text-neutral-800">
-              {selectedLine.number} — {selectedLine.from} → {selectedLine.to}
+              {selectedLine.kind === 'urbaine' ? `Ligne ${selectedLine.number}` : selectedLine.number} —{' '}
+              {selectedLine.areas}
             </p>
             <span
               className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
@@ -125,20 +115,5 @@ export function MapTracking() {
 
       <BottomNav />
     </div>
-  );
-}
-
-function MapGrid() {
-  return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <defs>
-        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#c7d3c9" strokeWidth="0.3" />
-        </pattern>
-      </defs>
-      <rect width="100" height="100" fill="url(#grid)" />
-      <path d="M0,55 L100,45" stroke="#f5d97a" strokeWidth="2.5" />
-      <path d="M20,0 L30,100" stroke="#fff" strokeWidth="3" opacity="0.6" />
-    </svg>
   );
 }

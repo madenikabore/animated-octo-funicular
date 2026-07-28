@@ -26,7 +26,7 @@ export interface ActiveSubscription {
   passCode: string;
 }
 
-export type PaymentMethodId = 'orange' | 'moov' | 'coris' | 'card';
+export type PaymentMethodId = 'orange' | 'moov' | 'coris' | 'wave' | 'telecel';
 
 export interface PaymentMethod {
   id: PaymentMethodId;
@@ -34,12 +34,19 @@ export interface PaymentMethod {
   recommended?: boolean;
 }
 
+export interface ScheduleWindow {
+  start: string;
+  end: string;
+}
+
 export interface BusLine {
   id: string;
   number: string;
-  from: string;
-  to: string;
+  kind: 'urbaine' | 'suburbaine';
+  areas: string;
   color: string;
+  weekday: ScheduleWindow;
+  sundayHoliday: ScheduleWindow;
 }
 
 export interface LiveBus {
@@ -51,6 +58,6 @@ export interface LiveBus {
   etaMinutes: number;
   lastDeparture: string;
   status: 'EN ROUTE' | 'À QUAI' | 'RETARD';
-  x: number;
-  y: number;
+  lat: number;
+  lng: number;
 }
