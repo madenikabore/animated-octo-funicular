@@ -25,7 +25,6 @@ export function Splash() {
           <BusLogo />
         </div>
         <h1 className="text-3xl font-bold tracking-tight">SOTRACO</h1>
-        <p className="text-sotraco-orange-500 text-lg font-semibold -mt-1">Connect</p>
         <p className="text-sotraco-green-100/80 text-sm mt-3">Transport Connecté — Burkina Faso</p>
       </div>
 
